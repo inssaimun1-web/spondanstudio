@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spondan Studio - Advanced Personal Portfolio</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        /* Define CSS Variables for Theming - Default is Dark Mode */
+        body {
+            /* Dark Mode Defaults */
+            --bg-primary: #0d1117; /* Main Background */
+            --bg-secondary: #161b22; /* Card/Panel Background */
+            --text-color: #c9d1d9; /* Default Light Text */
+            --text-muted: #8b949e; /* Muted Gray Text */
+            --border-color: #30363d; /* Border/Separator Color */
+            --blue-accent: #3b82f6; /* Blue-600 */
+
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-color);
+            scroll-behavior: smooth;
+            transition: background-color 0.3s, color 0.3s; /* Smooth Transition */
+        }
+
+        /* Light Mode Overrides (Applied when body has .light-mode class) */
+        body.light-mode {
+            --bg-primary: #f3f4f6; /* Light Gray Background */
+            --bg-secondary: #ffffff; /* White Card/Panel Background */
+            --text-color: #1f2937; /* Dark Text */
+            --text-muted: #6b7280; /* Muted Dark Gray Text */
+            --border-color: #d1d5db; /* Light Border/Separator Color */
+            --blue-accent: #1d4ed8; /* Blue-700 */
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--blue-accent);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        /* Custom Utility Classes using CSS Variables to manage theme switching in Tailwind-heavy elements */
+        .bg-primary { background-color: var(--bg-primary); }
+        .bg-secondary { background-color: var(--bg-secondary); }
+        .text-primary { color: var(--text-color); }
+        .text-muted { color: var(--text-muted); }
+        .border-primary { border-color: var(--border-color); }
+        .text-accent { color: var(--blue-accent); }
+        /* Light mode specific hover class */
+        body.light-mode .light-mode\:hover\:bg-gray-200:hover { background-color: #e5e7eb; }
+
+
+        /* Custom shadow for dark mode aesthetics */
+        .shadow-header {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+        
+        /* --- Animation Styles --- */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-on-load { opacity: 0; }
+        .animate-stagger-1 { animation: slideUp 0.7s ease-out 0.2s forwards; }
+        .animate-stagger-2 { animation: slideUp 0.7s ease-out 0.4s forwards; }
+        .animate-stagger-3 { animation: slideUp 0.7s ease-out 0.6s forwards; }
+        .animate-stagger-4 { animation: slideUp 0.7s ease-out 0.8s forwards; }
+        .animate-stagger-5 { animation: slideUp 0.7s ease-out 1.0s forwards; }
+        .animate-stagger-6 { animation: slideUp 0.7s ease-out 1.2s forwards; }
+        .animate-stagger-7 { animation: slideUp 0.7s ease-out 1.4s forwards; }
+        .animate-stagger-8 { animation: slideUp 0.7s ease-out 1.6s forwards; }
+        .animate-stagger-9 { animation: slideUp 0.7s ease-out 1.8s forwards; } /* New stagger for the second separator */
+
+        /* Enhanced Hover Effects for Contact Links (subtle shadow and movement) */
+        .contact-link-hover {
+            transition: all 0.3s ease-in-out;
+        }
+        .contact-link-hover:hover {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6); /* Blue glow */
+            transform: translateX(5px);
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-primary/95 backdrop-blur-sm shadow-xl shadow-blue-900/10 shadow-header animate-on-load animate-stagger-1">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-blue-400 hover:text-blue-300 transition duration-300">
+               Spondan
+            </a>
+            <div class="flex items-center space-x-4">
+                <div class="space-x-4 hidden md:flex">
+                    <!-- Navigation Links -->
+                    <a href="#about" class="text-primary hover:text-blue-400 transition duration-300 font-medium">About</a>
+                    <a href="#assistant" class="text-primary hover:text-blue-400 transition duration-300 font-medium">Assistant</a>
+                    <a href="#contact" class="text-primary hover:text-blue-400 transition duration-300 font-medium">Contact</a>
+                </div>
+
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-800 light-mode:hover:bg-gray-200 focus:outline-none transition-colors duration-300">
+                    <!-- Moon Icon (Visible in Dark Mode) -->
+                    <svg id="moon-icon" class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 12 12 0 0012 21a12.001 12.001 0 008.354-5.646z"></path></svg>
+                    <!-- Sun Icon (Visible in Light Mode) -->
+                    <svg id="sun-icon" class="w-6 h-6 text-orange-500 hidden" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.5-9H14V7.5a1 1 0 00-2 0V9h-2.5a1 1 0 000 2H12v2.5a1 1 0 002 0V12h2.5a1 1 0 000-2z"/></svg>
+                </button>
+
+                <!-- Mobile Menu Button (Hamburger Icon) -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-800 light-mode:hover:bg-gray-200 focus:outline-none transition-colors duration-300">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="md:hidden hidden pb-3 transition duration-300 ease-in-out bg-secondary">
+            <a href="#about" class="block px-4 py-2 text-primary hover:bg-gray-700 light-mode:hover:bg-gray-200 hover:text-blue-400 font-medium transition-colors" onclick="toggleMenu()">About</a>
+            <a href="#assistant" class="block px-4 py-2 text-primary hover:bg-gray-700 light-mode:hover:bg-gray-200 hover:text-blue-400 font-medium transition-colors" onclick="toggleMenu()">Assistant</a>
+            <a href="#contact" class="block px-4 py-2 text-primary hover:bg-gray-700 light-mode:hover:bg-gray-200 hover:text-blue-400 font-medium transition-colors" onclick="toggleMenu()">Contact</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- 1. Hero Section -->
+        <section id="hero" class="py-24 md:py-36 text-center">
+            <div class="flex flex-col items-center">
+                <!-- Profile Image -->
+                <img src="507105954_10020553588021161_2553257157521308079_n.jpg" 
+                     alt="Kamrul Alam's Profile Picture" 
+                     class="w-36 h-36 rounded-full ring-4 ring-blue-400 object-cover mb-6 transition-transform duration-500 hover:scale-105 animate-on-load animate-stagger-2">
+
+                <h1 class="text-4xl sm:text-6xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 animate-on-load animate-stagger-3">
+                    Spondan Studio
+                </h1>
+                <p class="text-xl sm:text-2xl font-light text-muted mb-8 animate-on-load animate-stagger-4">
+                    Agnibina Sarak | Jhenaidah Sadar | Jhenaidah
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 animate-on-load animate-stagger-5">
+                    <a href="#contact" class="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">
+                        Get In Touch
+                    </a>
+                    <!-- Updated PDF link and text -->
+                    <a href="S.S..pdf" target="_blank" class="px-8 py-3 border border-gray-600 light-mode:border-gray-400 text-primary font-semibold rounded-lg hover:bg-gray-800 light-mode:hover:bg-gray-200 transition duration-300 transform hover:scale-105">
+                        View Studio Profile (PDF)
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Separator -->
+        <hr class="border-primary mb-20 animate-on-load animate-stagger-6">
+
+        <!-- 2. About Me Section -->
+        <section id="about" class="mb-20 animate-on-load animate-stagger-7">
+            <h2 class="text-3xl font-bold text-center mb-12 text-blue-400">About Spondan Studio</h2>
+            <div class="bg-secondary p-8 rounded-xl shadow-2xl shadow-gray-900/50 light-mode:shadow-gray-300/50">
+                <p class="text-lg leading-relaxed mb-4 text-primary">
+                   Spondan Studio is a successful photography business celebrating two decades of operation. The studio specializes in capturing life's personal milestones, emphasizing the mission "to freeze time" by blending timeless artistry with cutting-edge technology.
+                </p>
+                <p class="text-lg leading-relaxed text-primary">
+                    The studio's resilience is highlighted by its successful transition from film and darkrooms to the digital age, and it has recently expanded its offerings to include specialized, technically compliant Passport and Visa Photo Services.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Separator -->
+        <hr class="border-primary mb-20">
+
+        <!-- 3. AI Copywriter Assistant Section -->
+        <section id="assistant" class="mb-20 animate-on-load animate-stagger-8">
+            <h2 class="text-3xl font-bold text-center mb-12 text-blue-400">
+                AI Copywriter Assistant ✨
+            </h2>
+            <div class="max-w-3xl mx-auto bg-secondary p-8 rounded-xl shadow-2xl shadow-blue-900/50 light-mode:shadow-gray-300/50 border border-primary">
+                <p class="text-lg text-primary mb-6 text-center">
+                    Instantly generate a professional, high-impact business bio based on the "About Spondan Studio" section above.
+                </p>
+
+                <button id="generate-summary-btn" class="w-full px-8 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:bg-indigo-700 transition duration-300 transform hover:scale-[1.01] mb-6 disabled:opacity-50">
+                    Generate Business Bio ✨
+                </button>
+
+                <!-- Loading Indicator -->
+                <div id="loading-indicator" class="hidden text-center text-blue-400 font-medium my-4">
+                    <svg class="animate-spin h-5 w-5 mr-3 inline text-blue-500" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Generating summary...
+                </div>
+
+                <!-- Output Area -->
+                <div id="ai-output-container" class="mt-8 border-t pt-6 border-primary hidden">
+                    <h4 class="text-xl font-semibold mb-3 text-blue-300">Generated Summary:</h4>
+                    <div id="ai-output" class="bg-primary p-4 rounded-lg border border-gray-700 light-mode:border-gray-300 text-primary whitespace-pre-wrap">
+                        <!-- Output will be placed here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Separator (Only one separator remains between AI Assistant and Contact) -->
+        <hr class="border-primary mb-20 animate-on-load animate-stagger-9">
+
+        <!-- 4. Contact Section -->
+        <section id="contact" class="pb-24">
+            <h2 class="text-3xl font-bold text-center mb-12 text-blue-400 animate-on-load animate-stagger-1">Let's Connect</h2>
+            <div class="max-w-xl mx-auto bg-secondary p-8 rounded-xl shadow-2xl shadow-blue-900/50 light-mode:shadow-gray-300/50 border border-primary animate-on-load animate-stagger-2">
+                <p class="text-lg text-center text-primary mb-6">
+                    I am currently open to exciting architectural challenges and collaborations. Feel free to reach out!
+                </p>
+                <div class="space-y-4">
+                    <!-- Email -->
+                    <div class="flex items-center space-x-3 bg-primary p-3 rounded-lg border border-primary contact-link-hover">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-17 4v7a2 2 0 002 2h14a2 2 0 002-2v-7"></path></svg>
+                        <span class="text-primary">spondanstudio.com</span>
+                    </div>
+                    <!-- Facebook (Replaces LinkedIn) -->
+                    <div class="flex items-center space-x-3 bg-primary p-3 rounded-lg border border-primary contact-link-hover">
+                        <!-- Facebook Icon SVG -->
+                        <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.867 4.264 10.743 9.873 11.836v-8.388H7.472V12.073h2.4V9.324c0-2.364 1.439-3.64 3.532-3.64 1.002 0 1.862.074 2.114.107v2.443h-1.442c-1.127 0-1.353.535-1.353 1.322v1.737h2.705l-.45 2.871h-2.255v8.388c5.609-1.093 9.873-5.969 9.873-11.836z"/></svg>
+                        <a href="#" target="_blank" class="text-primary hover:text-blue-400 transition duration-300">https://www.facebook.com/spondanstudio</a>
+                    </div>
+                    <!-- WhatsApp (Replaces GitHub) -->
+                    <div class="flex items-center space-x-3 bg-primary p-3 rounded-lg border border-primary contact-link-hover">
+                        <!-- WhatsApp Icon SVG -->
+                        <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.5 17.5l-.656-.375c-.718-.437-1.5-.75-2.25-.75-.75 0-1.5.312-2.25.75l-.656.375c-1.687-1.031-3.031-2.375-4.062-4.062l.375-.656c.437-.718.75-1.5.75-2.25 0-.75-.312-1.5-.75-2.25l-.375-.656c-.968-1.687-2.312-3.031-4-4.062l-.656.375c-.718.437-1.5.75-2.25.75-.75 0-1.5-.312-2.25-.75l-.656-.375c-.656 1.031-1.031 2.25-1.031 3.562 0 1.312.375 2.531 1.031 3.562l.656.375c.718.437 1.5.75 2.25.75 0 .75-.312 1.5-.75 2.25l-.375.656c1.031 1.687 2.375 3.031 4.062 4.062l.656-.375c.718-.437 1.5-.75 2.25-.75.75 0 1.5.312 2.25.75l.656.375c1.687-1.031 3.031-2.375 4.062-4.062l-.375-.656c-.437-.718-.75-1.5-.75-2.25z"/></svg>
+                        <span class="text-primary">+880 1718-485306</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 5. Location Map Section (New) -->
+        <section id="map" class="pb-24">
+            <h2 class="text-3xl font-bold text-center mb-12 text-blue-400">Our Location in Jhenaidah</h2>
+            <div class="max-w-4xl mx-auto rounded-xl shadow-2xl shadow-blue-900/50 light-mode:shadow-gray-300/50 overflow-hidden">
+                <!-- Google Maps Embed for Spandan Color Lab, Jhenaidah -->
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7315.280676380111!2d89.15984657770994!3d23.545435000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fee6753d74430b%3A0xd08d1badb06e4c5d!2sSpandan%20Color%20Lab!5e0!3m2!1sen!2sbd!4v1759349684209!5m2!1sen!2sbd" 
+                    width="100%" 
+                    height="300" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade"
+                    class="rounded-xl"
+                    title="Spandan Color Lab Location Map"
+                ></iframe>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary py-8 border-t border-primary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-muted text-sm">
+            <p>&copy; Spondan Studio. All rights reserved. Designed with precision and passion.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu Toggle, Dark Mode, and Gemini LLM -->
+    <script>
+        // Global API key (must be empty string)
+        const apiKey = "";
+        const model = 'gemini-2.5-flash-preview-05-20';
+
+        /**
+         * Utility function to fetch data with exponential backoff for retries.
+         * Helps handle transient network or rate-limiting errors gracefully.
+         */
+        async function fetchWithBackoff(url, options, retries = 5) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        // Retry for 429 (Too Many Requests) or 5xx errors
+                        if (response.status !== 429 && response.status < 500) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        // For retryable errors, proceed to delay
+                    } else {
+                        return response;
+                    }
+                } catch (error) {
+                    // Handle network errors (e.g., failed fetch)
+                    if (i === retries - 1) throw error; // Re-throw on last attempt
+                }
+                
+                // Exponential backoff delay: (2^i) * 1000ms + random jitter
+                const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+            throw new Error('Max retries exceeded for Gemini API call.');
+        }
+
+
+        /**
+         * Handles the Gemini API call to generate a professional summary.
+         */
+        async function generateSummary() {
+            const btn = document.getElementById('generate-summary-btn');
+            const loading = document.getElementById('loading-indicator');
+            const outputContainer = document.getElementById('ai-output-container');
+            const outputDiv = document.getElementById('ai-output');
+            
+            // 1. Get the content from the 'About Me' section
+            const aboutMeElement = document.querySelector('#about > div');
+            // The content is now the new, business-focused summary
+            const aboutMeContent = aboutMeElement ? Array.from(aboutMeElement.querySelectorAll('p')).map(p => p.textContent.trim()).join('\n\n') : "Spondan Studio is a successful photography business celebrating two decades of operation. The studio specializes in capturing life's personal milestones, emphasizing the mission 'to freeze time' by blending timeless artistry with cutting-edge technology. The studio's resilience is highlighted by its successful transition from film and darkrooms to the digital age, and it has recently expanded its offerings to include specialized, technically compliant Passport and Visa Photo Services.";
+
+            // 2. Update UI state (Disable button, show loader, clear previous output)
+            btn.disabled = true;
+            loading.classList.remove('hidden');
+            outputContainer.classList.add('hidden');
+            outputDiv.textContent = '';
+            
+            // 3. Construct the API Prompt (Updated for marketing/business focus)
+            const userQuery = `Review the following business profile and rewrite it as a concise, three-sentence, high-impact marketing summary suitable for a press release or a 'Why Choose Us' section. Focus on the studio's two-decade legacy, specialty, and new offerings (Passport/Visa photos). The input summary is:\n\n---\n${aboutMeContent}`;
+            const systemPrompt = "You are a professional Marketing and PR Copywriter specializing in small businesses. Your task is to distill the business profile into a sharp, achievement-focused marketing summary. Do not use filler phrases or conversational tone.";
+            
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+                // Use Google Search grounding to ensure industry-standard terminology and context
+                tools: [{ "google_search": {} }], 
+            };
+
+            // 4. Make the API call
+            try {
+                const response = await fetchWithBackoff(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                
+                // Extract generated text
+                const generatedText = result.candidates?.[0]?.content?.parts?.[0]?.text || 
+                                      "Error: Could not generate summary. Check the console for API details.";
+
+                outputDiv.textContent = generatedText;
+                outputContainer.classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                outputDiv.textContent = `Error: Failed to connect to the AI assistant. (Check console for network details)`;
+                outputContainer.classList.remove('hidden');
+            } finally {
+                // 5. Reset UI state
+                btn.disabled = false;
+                loading.classList.add('hidden');
+            }
+        }
+
+        // Main DOMContentLoaded listener
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+            const generateBtn = document.getElementById('generate-summary-btn');
+
+            // --- 1. Mobile Menu Toggle Logic ---
+            window.toggleMenu = function() {
+                mobileMenu.classList.toggle('hidden');
+            }
+            if (menuBtn) {
+                menuBtn.addEventListener('click', toggleMenu);
+            }
+
+            // --- 2. Theme Switching Logic ---
+            function applyTheme(isLight) {
+                if (isLight) {
+                    body.classList.add('light-mode');
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    body.classList.remove('light-mode');
+                    moonIcon.classList.remove('hidden');
+                    sunIcon.classList.add('hidden');
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+
+            const savedTheme = localStorage.getItem('theme');
+            const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+
+            if (savedTheme === 'light') {
+                applyTheme(true);
+            } else if (savedTheme === 'dark') {
+                applyTheme(false);
+            } else {
+                applyTheme(prefersLight);
+            }
+
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const isCurrentlyLight = body.classList.contains('light-mode');
+                    applyTheme(!isCurrentlyLight);
+                });
+            }
+
+            // --- 3. Gemini Assistant Event Listener ---
+            if (generateBtn) {
+                generateBtn.addEventListener('click', generateSummary);
+            }
+        });
+    </script>
+</body>
+</html>
