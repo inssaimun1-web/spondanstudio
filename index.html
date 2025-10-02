@@ -159,11 +159,11 @@
             </div>
         </section>
 
-        <!-- Separator -->
-        <hr class="border-primary mb-20 animate-on-load animate-stagger-6">
+     <!-- Separator -->
+        <hr class="border-primary mb-20">
 
         <!-- 2. About Me Section -->
-        <section id="about" class="mb-20 animate-on-load animate-stagger-7">
+        <section id="about" class="mb-20">
             <h2 class="text-3xl font-bold text-center mb-12 text-blue-400">About Spondan Studio</h2>
             <div class="bg-secondary p-8 rounded-xl shadow-2xl shadow-gray-900/50 light-mode:shadow-gray-300/50">
                 <p class="text-lg leading-relaxed mb-4 text-primary">
@@ -178,62 +178,127 @@
         <!-- Separator -->
         <hr class="border-primary mb-20">
 
-        <!-- 3. AI Copywriter Assistant Section -->
-        <section id="assistant" class="mb-20 animate-on-load animate-stagger-8">
+        <!-- 3. Advanced Interactive Tools Section (New) -->
+        <section id="tools" class="mb-20">
             <h2 class="text-3xl font-bold text-center mb-12 text-blue-400">
-                AI Copywriter Assistant ✨
+                Advanced Interactive Tools 🛠️
             </h2>
-            <div class="max-w-3xl mx-auto bg-secondary p-8 rounded-xl shadow-2xl shadow-blue-900/50 light-mode:shadow-gray-300/50 border border-primary">
-                <p class="text-lg text-primary mb-6 text-center">
-                    Instantly generate a professional, high-impact business bio based on the "About Spondan Studio" section above.
-                </p>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Tool 1: Pricing Calculator -->
+                <div class="bg-secondary p-6 rounded-xl shadow-2xl shadow-blue-900/50 light-mode:shadow-gray-300/50 border border-primary">
+                    <h3 class="text-xl font-semibold mb-4 text-green-accent">Project Price Estimator</h3>
+                    <p class="text-sm text-muted mb-4">Get a quick estimate for standard photography services.</p>
 
-                <button id="generate-summary-btn" class="w-full px-8 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:bg-indigo-700 transition duration-300 transform hover:scale-[1.01] mb-6 disabled:opacity-50">
-                    Generate Business Bio ✨
-                </button>
+                    <!-- Input Fields -->
+                    <div class="space-y-4">
+                        <div>
+                            <label for="event-type" class="block text-sm font-medium text-primary mb-1">Service Type:</label>
+                            <select id="event-type" class="w-full p-2 rounded-md bg-primary border border-primary focus:ring-blue-500 focus:border-blue-500 text-primary" onchange="calculatePrice()">
+                                <option value="0" data-digital-cost="0" selected>Select a service</option>
+                                <!-- Milestone and Commercial now use a base rate + files -->
+                                <option value="0" data-digital-cost="50">College Application (Base: 50 BDT)</option>
+                                <!-- New Photo Print Options -->
+                                <option value="60" data-digital-cost="0">Photo (Computer Print, 4 pc)</option>
+                                <option value="80" data-digital-cost="0">Photo (Lab Print, 4 pc)</option>
+                            </select>
+                        </div>
+                        <div id="digital-files-group">
+                            <label for="digital-files" class="block text-sm font-medium text-primary mb-1">High-Res Digital Files (Addt'l):</label>
+                            <input type="number" id="digital-files" value="1" min="1" step="1" class="w-full p-2 rounded-md bg-primary border border-primary focus:ring-blue-500 focus:border-blue-500 text-primary" oninput="calculatePrice()">
+                            <p class="text-xs text-muted mt-1" id="digital-cost-message">Additional digital files cost 50 BDT each.</p>
+                        </div>
+                    </div>
 
-                <!-- Loading Indicator -->
-                <div id="loading-indicator" class="hidden text-center text-blue-400 font-medium my-4">
-                    <svg class="animate-spin h-5 w-5 mr-3 inline text-blue-500" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Generating summary...
+                    <!-- Output -->
+                    <div class="mt-6 pt-4 border-t border-primary">
+                        <p class="text-lg font-bold">Estimated Total:</p>
+                        <p id="estimated-price" class="text-2xl font-extrabold text-blue-400">0 BDT</p>
+                    </div>
                 </div>
 
-                <!-- Output Area -->
-                <div id="ai-output-container" class="mt-8 border-t pt-6 border-primary hidden">
-                    <h4 class="text-xl font-semibold mb-3 text-blue-300">Generated Summary:</h4>
-                    <div id="ai-output" class="bg-primary p-4 rounded-lg border border-gray-700 light-mode:border-gray-300 text-primary whitespace-pre-wrap">
-                        <!-- Output will be placed here -->
+                <!-- Tool 2: Compliance Checker (Smart Widget) -->
+                <div class="bg-secondary p-6 rounded-xl shadow-2xl shadow-blue-900/50 light-mode:shadow-gray-300/50 border border-primary">
+                    <h3 class="text-xl font-semibold mb-4 text-green-accent">Passport Photo Compliance Check</h3>
+                    <p class="text-sm text-muted mb-4">Use AI to fetch technical photo rules for any country, ensuring compliance.</p>
+                    
+                    <label for="country-input" class="block text-sm font-medium text-primary mb-1">Country for Visa/Passport:</label>
+                    <input type="text" id="country-input" value="Bangladesh" placeholder="e.g., India, UK, USA" class="w-full p-2 rounded-md bg-primary border border-primary focus:ring-blue-500 focus:border-blue-500 text-primary mb-4">
+                    
+                    <button id="check-compliance-btn" class="w-full px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 disabled:opacity-50">
+                        Check Rules
+                    </button>
+
+                    <!-- Loading Indicator -->
+                    <div id="compliance-loading" class="hidden text-center text-blue-400 font-medium my-4">
+                        <svg class="animate-spin h-5 w-5 mr-3 inline text-blue-500" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Searching regulations...
+                    </div>
+                    
+                    <!-- Output Area -->
+                    <div id="compliance-output-container" class="mt-4 pt-4 border-t border-primary hidden">
+                        <h4 class="text-md font-semibold mb-2 text-blue-300">Key Requirements:</h4>
+                        <div id="compliance-output" class="text-sm text-primary whitespace-pre-wrap max-h-40 overflow-y-auto">
+                            <!-- Compliance rules output here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool 3: AI Copywriter Assistant -->
+                <div class="bg-secondary p-6 rounded-xl shadow-2xl shadow-blue-900/50 light-mode:shadow-gray-300/50 border border-primary">
+                    <h3 class="text-xl font-semibold mb-4 text-green-accent">AI Copywriter Assistant</h3>
+                    <p class="text-sm text-muted mb-4">Generate a high-impact marketing bio based on the About section.</p>
+
+                    <button id="generate-summary-btn" class="w-full px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-300 disabled:opacity-50 mb-4">
+                        Generate Business Bio ✨
+                    </button>
+
+                    <!-- Loading Indicator -->
+                    <div id="summary-loading" class="hidden text-center text-blue-400 font-medium my-4">
+                        <svg class="animate-spin h-5 w-5 mr-3 inline text-blue-500" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Writing copy...
+                    </div>
+
+                    <!-- Output Area -->
+                    <div id="summary-output-container" class="mt-4 pt-4 border-t border-primary hidden">
+                        <h4 class="text-md font-semibold mb-2 text-blue-300">Generated Copy:</h4>
+                        <div id="ai-output" class="text-sm text-primary whitespace-pre-wrap max-h-40 overflow-y-auto">
+                            <!-- Output will be placed here -->
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- Separator (Only one separator remains between AI Assistant and Contact) -->
-        <hr class="border-primary mb-20 animate-on-load animate-stagger-9">
+        <!-- Separator -->
+        <hr class="border-primary mb-20">
 
-        <!-- 4. Contact Section -->
+        <!-- 5. Contact Section -->
         <section id="contact" class="pb-24">
-            <h2 class="text-3xl font-bold text-center mb-12 text-blue-400 animate-on-load animate-stagger-1">Let's Connect</h2>
-            <div class="max-w-xl mx-auto bg-secondary p-8 rounded-xl shadow-2xl shadow-blue-900/50 light-mode:shadow-gray-300/50 border border-primary animate-on-load animate-stagger-2">
+            <h2 class="text-3xl font-bold text-center mb-12 text-blue-400">Let's Connect</h2>
+            <div class="max-w-xl mx-auto bg-secondary p-8 rounded-xl shadow-2xl shadow-blue-900/50 light-mode:shadow-gray-300/50 border border-primary">
                 <p class="text-lg text-center text-primary mb-6">
-                    I am currently open to exciting architectural challenges and collaborations. Feel free to reach out!
+                    We are ready to freeze time for your next milestone. Reach out to Spondan Studio today!
                 </p>
                 <div class="space-y-4">
                     <!-- Email -->
                     <div class="flex items-center space-x-3 bg-primary p-3 rounded-lg border border-primary contact-link-hover">
                         <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-17 4v7a2 2 0 002 2h14a2 2 0 002-2v-7"></path></svg>
-                        <span class="text-primary">spondanstudio@gmail.com</span>
+                        <span class="text-primary">spondanstudio.com</span>
                     </div>
-                    <!-- Facebook (Replaces LinkedIn) -->
+                    <!-- Facebook -->
                     <div class="flex items-center space-x-3 bg-primary p-3 rounded-lg border border-primary contact-link-hover">
                         <!-- Facebook Icon SVG -->
                         <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.867 4.264 10.743 9.873 11.836v-8.388H7.472V12.073h2.4V9.324c0-2.364 1.439-3.64 3.532-3.64 1.002 0 1.862.074 2.114.107v2.443h-1.442c-1.127 0-1.353.535-1.353 1.322v1.737h2.705l-.45 2.871h-2.255v8.388c5.609-1.093 9.873-5.969 9.873-11.836z"/></svg>
-                        <a href="#" target="_blank" class="text-primary hover:text-blue-400 transition duration-300">Kamrul Alam</a>
+                        <a href="#" target="_blank" class="text-primary hover:text-blue-400 transition duration-300">https://www.facebook.com/spondanstudio</a>
                     </div>
-                    <!-- WhatsApp (Replaces GitHub) -->
+                    <!-- WhatsApp -->
                     <div class="flex items-center space-x-3 bg-primary p-3 rounded-lg border border-primary contact-link-hover">
                         <!-- WhatsApp Icon SVG -->
                         <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.5 17.5l-.656-.375c-.718-.437-1.5-.75-2.25-.75-.75 0-1.5.312-2.25.75l-.656.375c-1.687-1.031-3.031-2.375-4.062-4.062l.375-.656c.437-.718.75-1.5.75-2.25 0-.75-.312-1.5-.75-2.25l-.375-.656c-.968-1.687-2.312-3.031-4-4.062l-.656.375c-.718.437-1.5.75-2.25.75-.75 0-1.5-.312-2.25-.75l-.656-.375c-.656 1.031-1.031 2.25-1.031 3.562 0 1.312.375 2.531 1.031 3.562l.656.375c.718.437 1.5.75 2.25.75 0 .75-.312 1.5-.75 2.25l-.375.656c1.031 1.687 2.375 3.031 4.062 4.062l.656-.375c.718-.437 1.5-.75 2.25-.75.75 0 1.5.312 2.25.75l.656.375c1.687-1.031 3.031-2.375 4.062-4.062l-.375-.656c-.437-.718-.75-1.5-.75-2.25z"/></svg>
@@ -243,7 +308,7 @@
             </div>
         </section>
         
-        <!-- 5. Location Map Section (New) -->
+        <!-- 6. Location Map Section -->
         <section id="map" class="pb-24">
             <h2 class="text-3xl font-bold text-center mb-12 text-blue-400">Our Location in Jhenaidah</h2>
             <div class="max-w-4xl mx-auto rounded-xl shadow-2xl shadow-blue-900/50 light-mode:shadow-gray-300/50 overflow-hidden">
@@ -279,55 +344,86 @@
 
         /**
          * Utility function to fetch data with exponential backoff for retries.
-         * Helps handle transient network or rate-limiting errors gracefully.
          */
         async function fetchWithBackoff(url, options, retries = 5) {
             for (let i = 0; i < retries; i++) {
                 try {
                     const response = await fetch(url, options);
                     if (!response.ok) {
-                        // Retry for 429 (Too Many Requests) or 5xx errors
                         if (response.status !== 429 && response.status < 500) {
                             throw new Error(`HTTP error! Status: ${response.status}`);
                         }
-                        // For retryable errors, proceed to delay
                     } else {
                         return response;
                     }
                 } catch (error) {
-                    // Handle network errors (e.g., failed fetch)
-                    if (i === retries - 1) throw error; // Re-throw on last attempt
+                    if (i === retries - 1) throw error;
                 }
-                
-                // Exponential backoff delay: (2^i) * 1000ms + random jitter
-                const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                const delay = Math.pow(2, i) * 1000 + Math.random() * 500;
                 await new Promise(resolve => setTimeout(resolve, delay));
             }
-            throw new Error('Max retries exceeded for Gemini API call.');
+            throw new Error('Max retries exceeded for API call.');
         }
 
+        // --- Pricing Calculator Logic ---
+        const DIGITAL_FILE_COST = 50; // Cost per additional high-res digital file
+
+        /**
+         * Calculates and updates the estimated price based on user inputs.
+         */
+        function calculatePrice() {
+            const eventTypeSelect = document.getElementById('event-type');
+            const digitalFilesInput = document.getElementById('digital-files');
+            const digitalFilesGroup = document.getElementById('digital-files-group');
+            const digitalCostMessage = document.getElementById('digital-cost-message');
+            const priceOutput = document.getElementById('estimated-price');
+
+            // Get selected option and its data attribute
+            const selectedOption = eventTypeSelect.options[eventTypeSelect.selectedIndex];
+            const eventBasePrice = parseFloat(selectedOption.value) || 0;
+            const digitalCostPerFile = parseFloat(selectedOption.getAttribute('data-digital-cost')) || 0;
+
+            let total = eventBasePrice;
+
+            // Handle visibility and calculation for Digital Files
+            if (digitalCostPerFile > 0) {
+                digitalFilesGroup.classList.remove('hidden');
+                digitalCostMessage.textContent = `Additional digital files cost ${digitalCostPerFile} BDT each.`;
+                const digitalFiles = parseInt(digitalFilesInput.value) || 0;
+                const digitalCost = digitalFiles * digitalCostPerFile;
+                total += digitalCost;
+            } else {
+                // Hide digital files input for flat-rate services (like passport photos)
+                digitalFilesGroup.classList.add('hidden');
+                digitalFilesInput.value = '0'; // Reset file count when service changes
+            }
+            
+            // Update output
+            priceOutput.textContent = `${total.toLocaleString('en-US')} BDT`;
+        }
+
+        // --- Tool 2: AI Copywriter Assistant Logic ---
 
         /**
          * Handles the Gemini API call to generate a professional summary.
          */
         async function generateSummary() {
             const btn = document.getElementById('generate-summary-btn');
-            const loading = document.getElementById('loading-indicator');
-            const outputContainer = document.getElementById('ai-output-container');
+            const loading = document.getElementById('summary-loading');
+            const outputContainer = document.getElementById('summary-output-container');
             const outputDiv = document.getElementById('ai-output');
             
             // 1. Get the content from the 'About Me' section
             const aboutMeElement = document.querySelector('#about > div');
-            // The content is now the new, business-focused summary
             const aboutMeContent = aboutMeElement ? Array.from(aboutMeElement.querySelectorAll('p')).map(p => p.textContent.trim()).join('\n\n') : "Spondan Studio is a successful photography business celebrating two decades of operation. The studio specializes in capturing life's personal milestones, emphasizing the mission 'to freeze time' by blending timeless artistry with cutting-edge technology. The studio's resilience is highlighted by its successful transition from film and darkrooms to the digital age, and it has recently expanded its offerings to include specialized, technically compliant Passport and Visa Photo Services.";
 
-            // 2. Update UI state (Disable button, show loader, clear previous output)
+            // 2. Update UI state
             btn.disabled = true;
             loading.classList.remove('hidden');
             outputContainer.classList.add('hidden');
             outputDiv.textContent = '';
             
-            // 3. Construct the API Prompt (Updated for marketing/business focus)
+            // 3. Construct the API Prompt
             const userQuery = `Review the following business profile and rewrite it as a concise, three-sentence, high-impact marketing summary suitable for a press release or a 'Why Choose Us' section. Focus on the studio's two-decade legacy, specialty, and new offerings (Passport/Visa photos). The input summary is:\n\n---\n${aboutMeContent}`;
             const systemPrompt = "You are a professional Marketing and PR Copywriter specializing in small businesses. Your task is to distill the business profile into a sharp, achievement-focused marketing summary. Do not use filler phrases or conversational tone.";
             
@@ -338,7 +434,6 @@
                 systemInstruction: {
                     parts: [{ text: systemPrompt }]
                 },
-                // Use Google Search grounding to ensure industry-standard terminology and context
                 tools: [{ "google_search": {} }], 
             };
 
@@ -360,7 +455,7 @@
                 outputContainer.classList.remove('hidden');
 
             } catch (error) {
-                console.error("Gemini API Error:", error);
+                console.error("Gemini API Error (Copywriter):", error);
                 outputDiv.textContent = `Error: Failed to connect to the AI assistant. (Check console for network details)`;
                 outputContainer.classList.remove('hidden');
             } finally {
@@ -370,7 +465,77 @@
             }
         }
 
-        // Main DOMContentLoaded listener
+        // --- Tool 3: Photo Compliance Checker Logic (New Smart Widget) ---
+
+        /**
+         * Uses Gemini with Google Search to fetch compliance rules for a given country.
+         */
+        async function checkCompliance() {
+            const countryInput = document.getElementById('country-input');
+            const btn = document.getElementById('check-compliance-btn');
+            const loading = document.getElementById('compliance-loading');
+            const outputContainer = document.getElementById('compliance-output-container');
+            const outputDiv = document.getElementById('compliance-output');
+            
+            const country = countryInput.value.trim();
+            if (!country) {
+                outputDiv.textContent = "Please enter a country name (e.g., India or UK).";
+                outputContainer.classList.remove('hidden');
+                return;
+            }
+
+            // 1. Update UI state
+            btn.disabled = true;
+            loading.classList.remove('hidden');
+            outputContainer.classList.add('hidden');
+            outputDiv.textContent = '';
+
+            // 2. Construct the API Prompt
+            const userQuery = `Find the current official passport and visa photo technical requirements for ${country}. Summarize the key requirements in a concise, easy-to-read, bulleted list focusing on dimensions (size/ratio), background color, and head coverage/pose.`;
+            const systemPrompt = "You are a specialized compliance expert for international travel documents. Provide only the requested bulleted list of requirements, ensuring the information is current and accurate via search grounding.";
+            
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+                // CRITICAL: Use search grounding to ensure real-time, accurate compliance data
+                tools: [{ "google_search": {} }], 
+            };
+
+            // 3. Make the API call
+            try {
+                const response = await fetchWithBackoff(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                
+                // Extract generated text
+                const generatedText = result.candidates?.[0]?.content?.parts?.[0]?.text || 
+                                      `Error: Could not fetch compliance rules for ${country}.`;
+
+                outputDiv.textContent = generatedText;
+                outputContainer.classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Gemini API Error (Compliance):", error);
+                outputDiv.textContent = `Error: Failed to connect to the compliance checker. (Check console)`;
+                outputContainer.classList.remove('hidden');
+            } finally {
+                // 4. Reset UI state
+                btn.disabled = false;
+                loading.classList.add('hidden');
+            }
+        }
+
+
+        // --- Main DOMContentLoaded Listener ---
+
         document.addEventListener('DOMContentLoaded', () => {
             const body = document.body;
             const menuBtn = document.getElementById('mobile-menu-btn');
@@ -379,6 +544,9 @@
             const sunIcon = document.getElementById('sun-icon');
             const moonIcon = document.getElementById('moon-icon');
             const generateBtn = document.getElementById('generate-summary-btn');
+            const complianceBtn = document.getElementById('check-compliance-btn');
+            const eventTypeSelect = document.getElementById('event-type');
+            const digitalFilesInput = document.getElementById('digital-files');
 
             // --- 1. Mobile Menu Toggle Logic ---
             window.toggleMenu = function() {
@@ -387,7 +555,7 @@
             if (menuBtn) {
                 menuBtn.addEventListener('click', toggleMenu);
             }
-
+            
             // --- 2. Theme Switching Logic ---
             function applyTheme(isLight) {
                 if (isLight) {
@@ -421,13 +589,27 @@
                 });
             }
 
-            // --- 3. Gemini Assistant Event Listener ---
+            // --- 3. Initial UI Setup & Event Listeners ---
+            
+            // Initial call for Price Calculator
+            if (eventTypeSelect && digitalFilesInput) {
+                eventTypeSelect.addEventListener('change', calculatePrice);
+                digitalFilesInput.addEventListener('input', calculatePrice);
+                calculatePrice(); // Initialize price to 0 BDT and hide digital files initially
+            }
+
+            // Gemini Assistant Event Listeners
             if (generateBtn) {
                 generateBtn.addEventListener('click', generateSummary);
+            }
+            if (complianceBtn) {
+                complianceBtn.addEventListener('click', checkCompliance);
             }
         });
     </script>
 </body>
 </html>
+
+
 
 
